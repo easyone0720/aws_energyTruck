@@ -9,9 +9,10 @@ import { SellDrawer } from './sell-drawer'
 
 interface DashboardProps {
   onLogout: () => void
+  onHistory: () => void
 }
 
-export function Dashboard({ onLogout }: DashboardProps) {
+export function Dashboard({ onLogout, onHistory }: DashboardProps) {
   const [buyDrawerOpen, setBuyDrawerOpen] = useState(false)
   const [sellDrawerOpen, setSellDrawerOpen] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
@@ -19,20 +20,20 @@ export function Dashboard({ onLogout }: DashboardProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top Bar */}
-      <motion.header 
+      <motion.header
         className="sticky top-0 z-40 bg-background/95 backdrop-blur-lg border-b border-border"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
         <div className="flex items-center justify-between px-4 h-14">
-          <button 
+          <button
             onClick={() => setShowMenu(!showMenu)}
             className="p-2 rounded-xl hover:bg-secondary transition-colors relative"
           >
             <Menu className="w-5 h-5 text-foreground" />
           </button>
-          
+
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center">
               <Zap className="w-4 h-4 text-primary-foreground" />
@@ -41,33 +42,36 @@ export function Dashboard({ onLogout }: DashboardProps) {
               ENERGY TRUCK
             </span>
           </div>
-          
+
           <button className="p-2 rounded-xl hover:bg-secondary transition-colors relative">
             <Bell className="w-5 h-5 text-foreground" />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full" />
           </button>
         </div>
-        
+
         {/* Dropdown Menu */}
         {showMenu && (
-          <motion.div 
+          <motion.div
             className="absolute top-14 left-4 bg-card rounded-xl shadow-2xl border border-border p-2 min-w-[160px] z-50"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <button 
-              onClick={() => setShowMenu(false)}
+            <button
+              onClick={() => {
+                setShowMenu(false)
+                onHistory()
+              }}
               className="w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors text-sm font-medium text-foreground"
             >
               내 거래 내역
             </button>
-            <button 
+            <button
               onClick={() => setShowMenu(false)}
               className="w-full text-left px-4 py-3 rounded-lg hover:bg-secondary transition-colors text-sm font-medium text-foreground"
             >
               설정
             </button>
-            <button 
+            <button
               onClick={() => {
                 setShowMenu(false)
                 onLogout()
@@ -110,7 +114,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
             </div>
           </div>
         </motion.div>
-        
+
         {/* Current Price Card */}
         <motion.div
           className="bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-5"
@@ -135,10 +139,10 @@ export function Dashboard({ onLogout }: DashboardProps) {
             <span className="text-xs text-primary-foreground/70">오늘 오전 대비</span>
           </div>
         </motion.div>
-        
+
         {/* Price Chart */}
         <PriceChart />
-        
+
         {/* Recent Activity */}
         <motion.div
           className="bg-card rounded-2xl p-5 border border-border"
@@ -146,7 +150,15 @@ export function Dashboard({ onLogout }: DashboardProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <h3 className="font-semibold text-foreground mb-4">최근 거래</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-foreground">최근 거래</h3>
+            <button
+              onClick={onHistory}
+              className="text-xs text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
+            >
+              내 거래 내역 <ArrowUpRight className="w-3 h-3" />
+            </button>
+          </div>
           <div className="space-y-3">
             {[
               { type: 'sell', amount: 5.2, price: 1300, time: '2시간 전' },
@@ -155,9 +167,8 @@ export function Dashboard({ onLogout }: DashboardProps) {
             ].map((tx, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                    tx.type === 'sell' ? 'bg-primary/10' : 'bg-secondary'
-                  }`}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'sell' ? 'bg-primary/10' : 'bg-secondary'
+                    }`}>
                     {tx.type === 'sell' ? (
                       <ArrowUpRight className="w-5 h-5 text-primary" />
                     ) : (
@@ -184,7 +195,7 @@ export function Dashboard({ onLogout }: DashboardProps) {
       </main>
 
       {/* Action Footer */}
-      <motion.div 
+      <motion.div
         className="fixed bottom-0 left-0 right-0 p-4 bg-background/95 backdrop-blur-lg border-t border-border z-50"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
