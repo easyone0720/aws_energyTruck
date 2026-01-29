@@ -115,7 +115,7 @@ export function BuyDrawer({ open, onOpenChange }: BuyDrawerProps) {
                   </div>
 
                   <div className="flex gap-2">
-                    {[5, 10, 20, 50].map((amount) => (
+                    {[7, 50, 100, 200].map((amount) => (
                       <button
                         key={amount}
                         onClick={() => setEnergy(String(amount))}
