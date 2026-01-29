@@ -19,6 +19,8 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
+import { LocationSettingDialog } from './location-setting-dialog'
 
 interface MenuSidebarProps {
     open: boolean
@@ -27,6 +29,8 @@ interface MenuSidebarProps {
 }
 
 export function MenuSidebar({ open, onOpenChange, onLogout }: MenuSidebarProps) {
+    const [locationOpen, setLocationOpen] = useState(false)
+
     const itemVariants = {
         hidden: { opacity: 0, x: -10 },
         visible: (i: number) => ({
@@ -86,6 +90,7 @@ export function MenuSidebar({ open, onOpenChange, onLogout }: MenuSidebarProps) 
                                     icon={Home}
                                     label="내 집 발전 현황"
                                     rightElement={<span className="text-[10px] text-[#3B82F6] font-medium tracking-wide">3.2 kWh</span>}
+                                    onClick={() => setLocationOpen(true)}
                                 />
                             </div>
                         </motion.div>
@@ -135,8 +140,14 @@ export function MenuSidebar({ open, onOpenChange, onLogout }: MenuSidebarProps) 
                     </div>
 
                 </div>
+
             </SheetContent>
-        </Sheet>
+
+            <LocationSettingDialog
+                open={locationOpen}
+                onOpenChange={setLocationOpen}
+            />
+        </Sheet >
     )
 }
 
@@ -145,11 +156,15 @@ interface MenuButtonProps {
     icon: any
     label: string
     rightElement?: React.ReactNode
+    onClick?: () => void
 }
 
-function MenuButton({ icon: Icon, label, rightElement }: MenuButtonProps) {
+function MenuButton({ icon: Icon, label, rightElement, onClick }: MenuButtonProps) {
     return (
-        <button className="w-full flex items-center justify-between py-4 px-3 -mx-3 rounded-lg hover:bg-secondary/50 transition-all group">
+        <button
+            onClick={onClick}
+            className="w-full flex items-center justify-between py-4 px-3 -mx-3 rounded-lg hover:bg-secondary/50 transition-all group"
+        >
             <div className="flex items-center gap-4">
                 <Icon className="w-5 h-5 stroke-[1px] text-zinc-400 group-hover:text-foreground transition-colors" />
                 <span className="text-sm font-light text-zinc-300 group-hover:text-foreground transition-colors tracking-wide">{label}</span>
