@@ -41,7 +41,7 @@ export function FilterDrawer({
         onOpenChange(false)
     }
 
-    const periods = ['1개월', '3개월', '지난달', '직접설정']
+    const periods = ['1개월', '3개월', '6개월', '직접설정']
     const sorts = ['최신순', '과거순']
 
     return (
@@ -64,8 +64,8 @@ export function FilterDrawer({
                                     key={p}
                                     onClick={() => setPeriod(p)}
                                     className={`relative py-2.5 rounded-xl text-sm font-medium transition-all ${period === p
-                                            ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
-                                            : 'bg-secondary text-foreground hover:bg-secondary/80'
+                                        ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                                        : 'bg-secondary text-foreground hover:bg-secondary/80'
                                         }`}
                                 >
                                     {p}
@@ -88,8 +88,8 @@ export function FilterDrawer({
                                     key={s}
                                     onClick={() => setSort(s)}
                                     className={`flex-1 py-3 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 ${sort === s
-                                            ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
-                                            : 'bg-secondary text-foreground hover:bg-secondary/80'
+                                        ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                                        : 'bg-secondary text-foreground hover:bg-secondary/80'
                                         }`}
                                 >
                                     {s}
