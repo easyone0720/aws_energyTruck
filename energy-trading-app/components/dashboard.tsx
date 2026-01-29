@@ -18,7 +18,13 @@ export function Dashboard({ onLogout, onHistory }: DashboardProps) {
   const [showMenu, setShowMenu] = useState(false)
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col relative">
+      {showMenu && (
+        <div
+          className="fixed inset-0 z-30 bg-transparent"
+          onClick={() => setShowMenu(false)}
+        />
+      )}
       {/* Top Bar */}
       <motion.header
         className="sticky top-0 z-40 bg-background/95 backdrop-blur-lg border-b border-border"
@@ -26,7 +32,10 @@ export function Dashboard({ onLogout, onHistory }: DashboardProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="flex items-center justify-between px-4 h-14">
+        <div
+          className="flex items-center justify-between px-4 h-14"
+          onClick={() => showMenu && setShowMenu(false)}
+        >
           <button
             onClick={() => setShowMenu(!showMenu)}
             className="p-2 rounded-xl hover:bg-secondary transition-colors relative"
@@ -222,6 +231,6 @@ export function Dashboard({ onLogout, onHistory }: DashboardProps) {
       {/* Drawers */}
       <BuyDrawer open={buyDrawerOpen} onOpenChange={setBuyDrawerOpen} />
       <SellDrawer open={sellDrawerOpen} onOpenChange={setSellDrawerOpen} />
-    </div>
+    </div >
   )
 }
